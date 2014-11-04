@@ -22,17 +22,40 @@ public class AssignCmd extends Cmd {
 
 	Exp exp;
 	
-	public AssignCmd(int currentLineNumber, Lexer lex, char var, Exp exp) {
+	public AssignCmd(int currentLineNumber, Lexer lex) {
 		super(ASSIGN_CMD, currentLineNumber);
-		this.exp = exp;
-		this.var = var;
 		parseCMD(this, lex);
 	}
 	
-	private static void parseCMD(AssignCmd assignCMD, Lexer lex) {
+	private static void parseCMD(AssignCmd assignCmd, Lexer lex) {
 		Token token = lex.getNextToken();
-		if (token != ":=") {
-			
+		if (token.getType() != Token.Var) {
+			Printer.PrintError(assignCmd.getCurrentLineNumber(), 1);
+			return;
+		}
+		assignCmd.setVar(token.getStr().charAt(0));
+		
+		token = lex.getNextToken();
+		if (token.getStr() != ":=") {
+			Printer.PrintError(assignCmd.getCurrentLineNumber(), 1);
+			return;
+		}
+		
+		token = lex.getNextToken();
+		if (token.getType() != Token.BinOp || token.getType() != Token.Num || token.getType() != Token.Var) {
+			Printer.PrintError(assignCmd.getCurrentLineNumber(), 1);
+			return;
+		}
+		switch (token.getType()) {
+			case Token.BinOp : assignCmd.setExp(new BinExp(lex));
+			case Token.Num : assignCmd.setExp(new NumExp(lex));
+			case Token.Var : assignCmd.setExp(new VarExp(lex));
+		}
+		
+		token = lex.getNextToken();
+		if (token.getType() != EOL) {
+			Printer.PrintError(assignCmd.getCurrentLineNumber(), 1);
+			return;
 		}
 	}
 
