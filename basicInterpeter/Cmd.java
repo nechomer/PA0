@@ -7,13 +7,13 @@ public abstract class Cmd {
 	public static int PRINT_CMD = 3;
 	public static int MOUNT_CMD = 4;
 	
-	private String type;
+	private int type;
 
 	public Cmd() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public String getType() {
+	public int getType() {
 		return type;
 	}
 
