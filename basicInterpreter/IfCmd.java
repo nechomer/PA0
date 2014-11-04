@@ -38,12 +38,16 @@ public class IfCmd extends Cmd {
 		this.nextCmd = nextCmd;
 	}
 	
-	public IfCmd(char var1, char var2, int boolOP, Cmd nextCmd) {
-		super(IF_CMD);
+	public IfCmd(int currentLineNumber, Lexer lex, char var1, char var2, int boolOP, Cmd nextCmd) {
+		super(IF_CMD, currentLineNumber);
 		this.var1 = var1;
 		this.var2 = var2;
 		this.boolOP = boolOP;
 		this.nextCmd = nextCmd;
+		parseCMD(this, lex);
 	}
-
+	
+	private static void parceCMD(IfCmd ifCmd, ) {
+		
+	}
 }
