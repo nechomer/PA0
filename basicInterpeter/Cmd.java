@@ -2,10 +2,10 @@ package basicInterpreter;
 
 public abstract class Cmd {
 	
-	public static String IF_CMD = "IF";
-	public static String GOTO_CMD = "GOTO";
-	public static String PRINT_CMD = "PRINT";
-	public static String MOUNT_CMD = "MOUNT";
+	public static int IF_CMD = 1;
+	public static int GOTO_CMD = 2;
+	public static int PRINT_CMD = 3;
+	public static int MOUNT_CMD = 4;
 	
 	private String type;
 
