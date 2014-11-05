@@ -38,16 +38,54 @@ public class IfCmd extends Cmd {
 		this.nextCmd = nextCmd;
 	}
 	
-	public IfCmd(int currentLineNumber, Lexer lex, char var1, char var2, int boolOP, Cmd nextCmd) {
+	public IfCmd(int currentLineNumber, Lexer lex) {
 		super(IF_CMD, currentLineNumber);
-		this.var1 = var1;
-		this.var2 = var2;
-		this.boolOP = boolOP;
-		this.nextCmd = nextCmd;
 		parseCMD(this, lex);
 	}
 	
-	private static void parceCMD(IfCmd ifCmd, ) {
+	private static void parseCMD(IfCmd ifCmd, Lexer lex) {
+		Token token = lex.getNextToken();
+		if (token.getStr() != "(") {
+			Printer.PrintError(ifCmd.getCurrentLineNumber(), 1);
+			return;
+		} 
+		token = lex.getNextToken();
+		if (token.getType() != Token.Var) {
+			Printer.PrintError(ifCmd.getCurrentLineNumber(), 1);
+			return;
+		} 
+		ifCmd.setVar1(token.getStr().charAt(0));
 		
+		token = lex.getNextToken();
+		if (token.getType() != Token.BoolOp) {
+			Printer.PrintError(ifCmd.getCurrentLineNumber(), 1);
+			return;
+		} 
+		ifCmd.setBoolOP(token.getNum());
+		
+		token = lex.getNextToken();
+		if (token.getType() != Token.Var) {
+			Printer.PrintError(ifCmd.getCurrentLineNumber(), 1);
+			return;
+		} 
+		ifCmd.setVar2(token.getStr().charAt(0));
+		
+		token = lex.getNextToken();
+		if (token.getStr() != ")") {
+			Printer.PrintError(ifCmd.getCurrentLineNumber(), 1);
+			return;
+		} 
+		
+		token = lex.getNextToken();
+		if (token.getType() != Token.Cmd) {
+			Printer.PrintError(ifCmd.getCurrentLineNumber(), 1);
+			return;
+		} 
+		switch (token.getNum()) {
+			case Cmd.GOTO_CMD : ifCmd.setNextCmd(new GOTOCmd(ifCmd.getCurrentLineNumber(), lex));
+			case Cmd.IF_CMD : ifCmd.setNextCmd(new IfCmd(ifCmd.getCurrentLineNumber(), lex));;
+			case Cmd.PRINT_CMD : ifCmd.setNextCmd(new PrintCmd(ifCmd.getCurrentLineNumber(), lex));;
+			case Cmd.ASSIGN_CMD : ifCmd.setNextCmd(new AssignCmd(ifCmd.getCurrentLineNumber(), lex));;
+		}
 	}
 }
