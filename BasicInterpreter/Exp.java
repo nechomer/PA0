@@ -19,5 +19,6 @@ public abstract class Exp {
 		this.currentLineNumber =  currentLineNumber;
 	}
 
+	public abstract int evalExp();
 }
 	
