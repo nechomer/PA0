@@ -8,7 +8,7 @@ public class BinOpExp extends Exp {
 	public static final int DIV = 4;
 	
 	
-	public VarExp getVar1() {
+	public Exp getVar1() {
 		return var1;
 	}
 
@@ -16,7 +16,7 @@ public class BinOpExp extends Exp {
 		this.var1 = var1;
 	}
 
-	public VarExp getVar2() {
+	public Exp getVar2() {
 		return var2;
 	}
 
@@ -45,7 +45,7 @@ public class BinOpExp extends Exp {
 		Token.checkSpace(lex);
 		Token token = lex.getNextToken();
 		if (token.getType() != Token.VAR || token.getType() != Token.NUM || token.getType() != Token.BINOP) {
-			Printer.PrintError(binExp.getCurrentLineNumber(), 1);
+			Parser.setErrCode(binExp.getCurrentLineNumber(), 1);
 			return;
 		}
 		
@@ -59,7 +59,7 @@ public class BinOpExp extends Exp {
 		Token.checkSpace(lex);
 		token = lex.getNextToken();
 		if (token.getType() != Token.VAR || token.getType() != Token.NUM || token.getType() != Token.BINOP) {
-			Printer.PrintError(binExp.getCurrentLineNumber(), 1);
+			Parser.setErrCode(binExp.getCurrentLineNumber(), 1);
 			return;
 		}
 		
@@ -75,11 +75,16 @@ public class BinOpExp extends Exp {
 	}
 	
 	public int evalExp() {
-		switch (binOP) {
-			case (ADD) : return var1.evalExp() + var2.evalExp(); 
-			case (SUB) : return var1.evalExp() - var2.evalExp(); 
-			case (MUL) : return var1.evalExp() * var2.evalExp(); 
-			case (DIV) : return var1.evalExp() / var2.evalExp(); 
+		if (var1.valIsValid() && var2.valIsValid()) {
+			switch (binOP) {
+				case (ADD) : return var1.evalExp() + var2.evalExp(); 
+				case (SUB) : return var1.evalExp() - var2.evalExp(); 
+				case (MUL) : return var1.evalExp() * var2.evalExp(); 
+				case (DIV) : return var1.evalExp() / var2.evalExp(); 
+			}
 		}
+		Printer.PrintError(getCurrentLineNumber(), 4);
+		System.exit(0); 
+		return 0;
 	}
 }

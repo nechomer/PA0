@@ -15,13 +15,13 @@ public class Token {
 	 
 	 protected int     type;     // token's type
 	 protected String  strVal;
-	 protected double  numVal;     // numeric value
+	 protected int     numVal;     // numeric value
 	 
 	 int getType () {
 		 return type;
 	 }
 	 
-	 double getNum () {
+	 int getNum () {
 		 return numVal;
 	 }
 	 
@@ -33,12 +33,12 @@ public class Token {
 	     type = this.type;
      }
 	 
-	 Token(int type, double numVal) {
+	 Token(int type, int numVal) {
 	     type = this.type;
          numVal = this.numVal;
      }
 	 
-	 Token(int type, String strVal, double numVal) {
+	 Token(int type, String strVal, int numVal) {
 	     type = this.type;
 	     strVal = this.strVal;
          numVal = this.numVal;

@@ -20,5 +20,7 @@ public abstract class Exp {
 	}
 
 	public abstract int evalExp();
+	
+	public abstract boolean valIsValid();
 }
 	

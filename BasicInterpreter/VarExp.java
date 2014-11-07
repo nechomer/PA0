@@ -21,9 +21,21 @@ public class VarExp extends Exp {
 		Lexer.checkSpace(lex);
 		
 		Token token = lex.getNextToken();
+		if (token.getType() != Token.VAR) {
+			Parser.setErrCode(varExp.getCurrentLineNumber(), 1);
+		}
 	}
 	
 	public int evalExp() {
-		return variables.get(name);
+		if (!valIsValid()) {
+			Printer.PrintError(getCurrentLineNumber(), 4);
+			System.exit(0);
+		}
+		return Main.variables.get(name);
+	}
+
+	@Override
+	public boolean valIsValid() {
+		return Main.variables.containsKey(name);
 	}
 }

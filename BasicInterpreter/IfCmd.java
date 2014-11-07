@@ -53,57 +53,65 @@ public class IfCmd extends Cmd {
 	private static void parseCMD(IfCmd ifCmd, Lexer lex) {
 		Token token = lex.getNextToken();
 		if (token.getStr() != "(") {
-			Printer.PrintError(ifCmd.getCurrentLineNumber(), 1);
-			return;
-		} 
+			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
+		}
+		
+		//checkSpace
+		
 		token = lex.getNextToken();
-		if (token.getType() != Token.Var) {
-			Printer.PrintError(ifCmd.getCurrentLineNumber(), 1);
-			return;
+		if (token.getType() != Token.VAR) {
+			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
 		} 
 		ifCmd.setVar1(token.getStr().charAt(0));
 		
+		//checkSpace
+		
 		token = lex.getNextToken();
-		if (token.getType() != Token.BoolOp) {
-			Printer.PrintError(ifCmd.getCurrentLineNumber(), 1);
-			return;
+		if (token.getType() != Token.BOOLOP) {
+			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
 		} 
 		ifCmd.setBoolOP(token.getNum());
 		
+		//checkSpace
+		
 		token = lex.getNextToken();
-		if (token.getType() != Token.Var) {
-			Printer.PrintError(ifCmd.getCurrentLineNumber(), 1);
-			return;
+		if (token.getType() != Token.VAR) {
+			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
 		} 
 		ifCmd.setVar2(token.getStr().charAt(0));
 		
 		token = lex.getNextToken();
 		if (token.getStr() != ")") {
-			Printer.PrintError(ifCmd.getCurrentLineNumber(), 1);
-			return;
+			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
 		} 
 		
 		token = lex.getNextToken();
-		if (token.getType() != Token.Cmd) {
-			Printer.PrintError(ifCmd.getCurrentLineNumber(), 1);
-			return;
+		if (token.getType() != Token.CMD || token.getType() != Token.VAR) {
+			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
 		} 
 		switch (token.getNum()) {
 			case Cmd.GOTO_CMD : ifCmd.setNextCmd(new GOTOCmd(ifCmd.getCurrentLineNumber(), lex));
 			case Cmd.IF_CMD : ifCmd.setNextCmd(new IfCmd(ifCmd.getCurrentLineNumber(), lex));;
 			case Cmd.PRINT_CMD : ifCmd.setNextCmd(new PrintCmd(ifCmd.getCurrentLineNumber(), lex));;
-			case Cmd.ASSIGN_CMD : ifCmd.setNextCmd(new AssignCmd(ifCmd.getCurrentLineNumber(), lex));;
+		}
+		if (token.getType() == Token.VAR) {
+			ifCmd.setNextCmd(new AssignCmd(ifCmd.getCurrentLineNumber(), lex, token.getStr().charAt(0)));
 		}
 	}
 	
 	public boolean evalCondition() {
-		switch (boolOP) {
-		case (LT)  : return variables.get(var1) < variables.get(var2);
-		case (GT)  : return variables.get(var1) > variables.get(var2);
-		case (LE)  : return variables.get(var1) <= variables.get(var2)
-		case (GE)  : return variables.get(var1) >= variables.get(var2)
-		case (EQ)  : return variables.get(var1) == variables.get(var2)
-		case (NEQ) : return variables.get(var1) != variables.get(var2)
-		}
+		if (Main.variables.containsKey(var1) && Main.variables.containsKey(var2)) {
+			switch (boolOP) {
+			case (LT)  : return Main.variables.get(var1) < Main.variables.get(var2);
+			case (GT)  : return Main.variables.get(var1) > Main.variables.get(var2);
+			case (LE)  : return Main.variables.get(var1) <= Main.variables.get(var2);
+			case (GE)  : return Main.variables.get(var1) >= Main.variables.get(var2);
+			case (EQ)  : return Main.variables.get(var1) == Main.variables.get(var2);
+			case (NEQ) : return Main.variables.get(var1) != Main.variables.get(var2);
+			}
+		} 
+		Printer.PrintError(getCurrentLineNumber(), 4);
+		System.exit(0);
+		return false;
 	}
 }

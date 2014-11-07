@@ -22,7 +22,7 @@ public class NumExp extends Exp {
 		
 		Token token = lex.getNextToken();
 		if (token.getType() != Token.NUM) {
-			Printer.PrintError(numExp.getCurrentLineNumber(), 1);
+			Parser.setErrCode(numExp.getCurrentLineNumber(), 1);
 			return;
 		}
 		numExp.setVal(token.getNum());
@@ -34,6 +34,11 @@ public class NumExp extends Exp {
 	@Override
 	public int evalExp() {
 		return getVal();
+	}
+
+	@Override
+	public boolean valIsValid() {
+		return true;
 	}
 	
 	
