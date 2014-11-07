@@ -95,4 +95,15 @@ public class IfCmd extends Cmd {
 			case Cmd.ASSIGN_CMD : ifCmd.setNextCmd(new AssignCmd(ifCmd.getCurrentLineNumber(), lex));;
 		}
 	}
+	
+	public boolean evalCondition() {
+		switch (boolOP) {
+		case (LT)  : return variables.get(var1) < variables.get(var2);
+		case (GT)  : return variables.get(var1) > variables.get(var2);
+		case (LE)  : return variables.get(var1) <= variables.get(var2)
+		case (GE)  : return variables.get(var1) >= variables.get(var2)
+		case (EQ)  : return variables.get(var1) == variables.get(var2)
+		case (NEQ) : return variables.get(var1) != variables.get(var2)
+		}
+	}
 }

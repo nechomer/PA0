@@ -12,7 +12,7 @@ public class BinOpExp extends Exp {
 		return var1;
 	}
 
-	public void setVar1(VarExp var1) {
+	public void setVar1(Exp var1) {
 		this.var1 = var1;
 	}
 
@@ -20,7 +20,7 @@ public class BinOpExp extends Exp {
 		return var2;
 	}
 
-	public void setVar2(VarExp var2) {
+	public void setVar2(Exp var2) {
 		this.var2 = var2;
 	}
 
@@ -32,7 +32,7 @@ public class BinOpExp extends Exp {
 		this.binOP = binOP;
 	}
 
-	VarExp var1, var2;
+	Exp var1, var2;
 	int binOP;
 	
 	public BinOpExp(int currentLineNumber, Lexer lex, int binOp) {
@@ -48,10 +48,38 @@ public class BinOpExp extends Exp {
 			Printer.PrintError(binExp.getCurrentLineNumber(), 1);
 			return;
 		}
-		switch (token.getType()) {
-		case (Token.VAR) : {binExp.setVar1(new VarExp(getCurrentLineNumber(), lex));}
-		}
-		token = lex.getNextToken();
 		
+		switch (token.getType()) {
+		case (Token.VAR) :   binExp.setVar1(new VarExp(binExp.getCurrentLineNumber(), lex));
+		case (Token.NUM) :   binExp.setVar1(new NumExp(binExp.getCurrentLineNumber(), lex));
+		case (Token.BINOP) : binExp.setVar1(new BinOpExp(binExp.getCurrentLineNumber(), lex, token.getNum()));
+
+		}
+		
+		Token.checkSpace(lex);
+		token = lex.getNextToken();
+		if (token.getType() != Token.VAR || token.getType() != Token.NUM || token.getType() != Token.BINOP) {
+			Printer.PrintError(binExp.getCurrentLineNumber(), 1);
+			return;
+		}
+		
+		switch (token.getType()) {
+		case (Token.VAR) :   {binExp.setVar2(new VarExp(binExp.getCurrentLineNumber(), lex));}
+		case (Token.NUM) :   {binExp.setVar2(new NumExp(binExp.getCurrentLineNumber(), lex));}
+		case (Token.BINOP) : {binExp.setVar2(new BinOpExp(binExp.getCurrentLineNumber(), lex, token.getNum()));}
+
+		}
+		
+		Token.checkSpace(lex);
+
+	}
+	
+	public int evalExp() {
+		switch (binOP) {
+			case (ADD) : return var1.evalExp() + var2.evalExp(); 
+			case (SUB) : return var1.evalExp() - var2.evalExp(); 
+			case (MUL) : return var1.evalExp() * var2.evalExp(); 
+			case (DIV) : return var1.evalExp() / var2.evalExp(); 
+		}
 	}
 }
