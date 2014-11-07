@@ -7,12 +7,11 @@ public class Token {
     };
     
     /** The different types of token */
-	 final static int Cmd = 0;
-	 final static int Exp = 1;
-	 final static int Var = 2;
-	 final static int Num = 3;
-	 final static int BoolOp = 4;
-	 final static int BinOp = 5;
+	 final static int CMD = 0;
+	 final static int VAR = 2;
+	 final static int NUM = 3;
+	 final static int BOOLOP = 4;
+	 final static int BINOP = 5;
 	 
 	 protected int     type;     // token's type
 	 protected String  strVal;

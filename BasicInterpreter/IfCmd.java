@@ -1,6 +1,13 @@
-package basicInterpreter;
+
 
 public class IfCmd extends Cmd {
+	
+	public static final int LT = 1;
+	public static final int GT = 2;
+	public static final int LE = 3;
+	public static final int GE = 4;
+	public static final int EQ = 5;
+	public static final int NEQ = 6;
 	
 	private char var1, var2;
 	private int boolOP;
