@@ -1,4 +1,4 @@
-package basicInterpreter;
+
 
 public abstract class Cmd {
 	

@@ -1,4 +1,4 @@
-package basicInterpreter;
+
 
 public class PrintCmd extends Cmd {
 	
