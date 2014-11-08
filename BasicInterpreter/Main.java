@@ -39,7 +39,9 @@ public class Main {
 		//parse program
 		Parser parser = new Parser(lex);
 		boolean isProgramParsed = parser.parseProgram();
+		
 		closeBr(br);
+		
 		if (isProgramParsed) {
 			//execute program
 			Processor processor = new Processor(linesByRealNumbering.size());

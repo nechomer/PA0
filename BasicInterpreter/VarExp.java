@@ -18,9 +18,7 @@ public class VarExp extends Exp {
 	}
 	
 	private static void parseEXP(VarExp varExp, Lexer lex) {
-		
-		if (!Parser.checkSpace(varExp.getCurrentLineNumber(), lex)) return;
-		
+				
 		Token token = lex.nextToken();
 		if (token.getType() != Token.Var) {
 			Parser.setErrCode(varExp.getCurrentLineNumber(), 1);

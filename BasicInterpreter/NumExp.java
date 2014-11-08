@@ -18,7 +18,6 @@ public class NumExp extends Exp {
 	}
 	
 	private static void parseExp(NumExp numExp, Lexer lex) {
-		if (!Parser.checkSpace(numExp.getCurrentLineNumber(), lex)) return;
 		
 		Token token = lex.nextToken();
 		if (token.getType() != Token.Num) {
@@ -26,9 +25,7 @@ public class NumExp extends Exp {
 			return;
 		}
 		numExp.setVal(token.getNum());
-		
-		if (!Parser.checkSpace(numExp.getCurrentLineNumber(), lex)) return;
-		
+				
 	}
 
 	@Override
