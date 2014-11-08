@@ -22,13 +22,13 @@ public class Token {
 	 protected int 	   parVal;
 	 protected String  strVal;
 	 protected char    chrVal;
-	 protected double  numVal; 
+	 protected int  numVal; 
 	 
 	 int getType () {
 		 return type;
 	 }
 	 
-	 double getNum () {
+	 int getNum () {
 		 return numVal;
 	 }
 	 
@@ -40,7 +40,7 @@ public class Token {
 	     type = this.type;
      }
 	 
-	 Token(int type, double numVal) {
+	 Token(int type, int numVal) {
 	     type = this.type;
          numVal = this.numVal;
      }

@@ -44,7 +44,7 @@ public class Processor {
 				}
 				//evaluate Cmd
 				isIfCmd = true;
-				currentCmd = currentCmd.getCmd();
+				currentCmd = ((IfCmd)currentCmd).getNextCmd();
 				currentLine +=interval;
 				continue;
 			case Cmd.GOTO_CMD :
