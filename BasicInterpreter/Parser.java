@@ -21,7 +21,6 @@ public class Parser {
 		Token token = lex.nextToken();
 		if (token.getType() != Token.Num) {
 			Parser.setErrCode(currentLineNum, 1);
-			lex.nextLine();
 			return;
 		}
 		
@@ -36,16 +35,14 @@ public class Parser {
 		token = lex.nextToken();
 		if (!(token.getType() == Token.Symbol && token.getchar() == ':')) {
 			Parser.setErrCode(currentLineNum, 1);
-			lex.nextLine();
 			return;
 		}
 		
-		if (!Parser.checkSpace(currentLineNum, lex)) return;
+		if (!Parser.checkSpace(currentLineNum, lex))  return;
 		
 		token = lex.nextToken();
 		if (token.getType() != Token.Cmd && token.getType() != Token.Var) {
 			Parser.setErrCode(currentLineNum, 1);
-			lex.nextLine();
 			return;
 		}
 		
@@ -61,12 +58,13 @@ public class Parser {
 			currentCmd = new AssignCmd(currentLineNum, lex, token.getchar());
 		}
 		
+		if (lineErrorMap.containsKey(currentLineNum)) return;
+		
 		if (!Parser.checkSpace(currentLineNum, lex)) return;
 
 		token = lex.nextToken();
 		if (token.getType() != Token.Eol) {
 			Parser.setErrCode(currentLineNum, 1);
-			lex.nextLine();
 			return;
 		}
 		
@@ -79,6 +77,7 @@ public class Parser {
 		while (token.getType() != Token.Eof) {
 			lex.lastToken();
 			parseLine(lex);
+			lex.nextLine();
 			token = lex.nextToken();
 		}
 		
@@ -114,7 +113,6 @@ public class Parser {
 		Token token = lex.nextToken();
 		if (!(token.getType() == Token.Symbol && token.getchar() == ' ')) { 
 			Parser.setErrCode(currentLineNmuber, 1);
-			lex.nextLine();
 			return false;
 		}
 		return true;

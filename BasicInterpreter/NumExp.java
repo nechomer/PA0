@@ -22,7 +22,6 @@ public class NumExp extends Exp {
 		Token token = lex.nextToken();
 		if (token.getType() != Token.Num) {
 			Parser.setErrCode(numExp.getCurrentLineNumber(), 1);
-			lex.nextLine();
 			return;
 		}
 		numExp.setVal(token.getNum());

@@ -13,7 +13,7 @@ public class Processor {
 	
 	public void process(int startingAt) {
 		
-		Cmd currentCmd;
+		Cmd currentCmd = null;
 		Integer expValue;
 		int cmdType;
 		Exp exp;
@@ -43,12 +43,12 @@ public class Processor {
 					currentLine +=interval;
 				} else {//condition is true, evaluate Cmd
 					isIfCmd = true;
-					currentCmd = currentCmd.getCmd();
+					currentCmd = ((IfCmd) currentCmd).getNextCmd();
 				}
 				break;
 			case Cmd.GOTO_CMD :
-				gotoCmd = (GotoCmd) currentCmd;
-				int imgLineNumber = GotoCmd.getLineNumber();
+				gotoCmd = (GOTOCmd) currentCmd;
+				int imgLineNumber = gotoCmd.getLineNumber();
 				//get real line number from imaginary
 				int realLineNumber = Main.lineNumberingMap.get(imgLineNumber);
 				currentLine = realLineNumber;

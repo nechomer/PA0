@@ -24,7 +24,6 @@ public class GOTOCmd extends Cmd {
 		Token token = lex.nextToken();
 		if (token.getType() != Token.Num) {
 			Parser.setErrCode(gotoCmd.getCurrentLineNumber(), 1);
-			lex.nextLine();
 			return;
 		}
 		

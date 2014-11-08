@@ -47,7 +47,6 @@ public class BinOpExp extends Exp {
 		Token token = lex.nextToken();
 		if (token.getType() != Token.Var && token.getType() != Token.Num && token.getType() != Token.BinOp) {
 			Parser.setErrCode(binExp.getCurrentLineNumber(), 1);
-			lex.nextLine();
 			return;
 		}
 		
@@ -62,7 +61,6 @@ public class BinOpExp extends Exp {
 		token = lex.nextToken();
 		if (token.getType() != Token.Var && token.getType() != Token.Num && token.getType() != Token.BinOp) {
 			Parser.setErrCode(binExp.getCurrentLineNumber(), 1);
-			lex.nextLine();
 			return;
 		}
 		

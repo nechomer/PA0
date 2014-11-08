@@ -54,6 +54,7 @@ public class Lexer {
     	
     	if( line != null ) {
     		buffer = line.toCharArray();
+    		previousPos = 0;
 			currentPos = 0;
 			return true;
     	}
@@ -67,6 +68,7 @@ public class Lexer {
 		
 		if (eof == 1)
 			return new Token(Token.Eof);
+		
 		
         if (currentPos >= buffer.length)
             return new Token(Token.Error);
@@ -158,7 +160,6 @@ public class Lexer {
             case ';' :
                 if (currentPos+1 == buffer.length) {
 			
-                	nextLine();
 					return new Token(Token.Eol);
 					
                 } 

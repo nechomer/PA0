@@ -21,14 +21,12 @@ public class PrintCmd extends Cmd {
 		Token token = lex.nextToken();
 		if (token.getchar() != '(') {
 			Parser.setErrCode(printCmd.getCurrentLineNumber(), 1);
-			lex.nextLine();
 			return;
 		}
 		
 		token = lex.nextToken();
 		if (token.getType() != Token.BinOp && token.getType() != Token.Num && token.getType() != Token.Var) {
 			Parser.setErrCode(printCmd.getCurrentLineNumber(), 1);
-			lex.nextLine();
 			return;
 		}
 		switch (token.getType()) {
@@ -40,7 +38,6 @@ public class PrintCmd extends Cmd {
 		token = lex.nextToken();
 		if (token.getchar() != ')') {
 			Parser.setErrCode(printCmd.getCurrentLineNumber(), 1);
-			lex.nextLine();
 			return;
 		}
 		

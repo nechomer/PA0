@@ -54,14 +54,12 @@ public class IfCmd extends Cmd {
 		Token token = lex.nextToken();
 		if (token.getchar() != '(') {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
-			lex.nextLine();
 			return;
 		}
 				
 		token = lex.nextToken();
 		if (token.getType() != Token.Var) {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
-			lex.nextLine();
 			return;
 		} 
 		ifCmd.setVar1(token.getchar());
@@ -71,7 +69,6 @@ public class IfCmd extends Cmd {
 		token = lex.nextToken();
 		if (token.getType() != Token.BoolOp) {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
-			lex.nextLine();
 			return;
 		} 
 		
@@ -82,7 +79,6 @@ public class IfCmd extends Cmd {
 		token = lex.nextToken();
 		if (token.getType() != Token.Var) {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
-			lex.nextLine();
 			return;
 		} 
 		ifCmd.setVar2(token.getchar());
@@ -90,7 +86,6 @@ public class IfCmd extends Cmd {
 		token = lex.nextToken();
 		if (token.getchar() != ')') {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
-			lex.nextLine();
 			return;
 		} 
 		
@@ -99,7 +94,6 @@ public class IfCmd extends Cmd {
 		token = lex.nextToken();
 		if (token.getType() != Token.Cmd && token.getType() != Token.Var) {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
-			lex.nextLine();
 			return;
 		} 
 		
