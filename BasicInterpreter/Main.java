@@ -34,7 +34,7 @@ public class Main {
 		Lexer lex = new Lexer(br);
 		
 		//checks, to be deleted
-		tokenizerCheker(lex);
+		//tokenizerCheker(lex);
 		
 		//parse program
 		Parser parser = new Parser(lex);

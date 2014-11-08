@@ -40,7 +40,7 @@ public class AssignCmd extends Cmd {
 
 		
 		token = lex.nextToken();
-		if (token.getType() != Token.BinOp || token.getType() != Token.Num || token.getType() != Token.Var) {
+		if (token.getType() != Token.BinOp && token.getType() != Token.Num && token.getType() != Token.Var) {
 			Parser.setErrCode(assignCmd.getCurrentLineNumber(), 1);
 		}
 		switch (token.getType()) {

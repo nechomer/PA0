@@ -8,7 +8,7 @@ public class Parser {
 	//<line # in file, error code>
 	public static HashMap<Integer, Integer> lineErrorMap = new HashMap<Integer, Integer>();
 	private Lexer lex;
-	private static int maxLineIdx = 1;
+	private static int maxLineIdx = 0;
 	private static int currentLineNum = 0;
 	
 	public Parser(Lexer lex) {
@@ -34,7 +34,7 @@ public class Parser {
 		if (!Parser.checkSpace(currentLineNum, lex)) return;
 		
 		token = lex.nextToken();
-		if (!(token.getType() != Token.Symbol && token.getchar() != ':')) {
+		if (!(token.getType() == Token.Symbol && token.getchar() == ':')) {
 			Parser.setErrCode(currentLineNum, 1);
 			lex.nextLine();
 			return;
@@ -51,12 +51,13 @@ public class Parser {
 		
 		Cmd currentCmd = null;
 		
-		switch (token.getNum()) {
-			case (Cmd.IF_CMD) : currentCmd = new IfCmd(currentLineNum, lex);
-			case (Cmd.GOTO_CMD) : currentCmd = new GOTOCmd(currentLineNum, lex);
-			case (Cmd.PRINT_CMD) : currentCmd = new PrintCmd(currentLineNum, lex);
-		}
-		if (token.getType() == Token.Var) {
+		if (token.getType() == Token.Cmd) {
+			switch (token.getNum()) {
+				case (Cmd.IF_CMD) : currentCmd = new IfCmd(currentLineNum, lex);
+				case (Cmd.GOTO_CMD) : currentCmd = new GOTOCmd(currentLineNum, lex);
+				case (Cmd.PRINT_CMD) : currentCmd = new PrintCmd(currentLineNum, lex);
+			}
+		} else {
 			currentCmd = new AssignCmd(currentLineNum, lex, token.getchar());
 		}
 		
