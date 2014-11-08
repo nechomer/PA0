@@ -51,9 +51,10 @@ public class Main {
 		Token t;
 		
 		System.out.println("The Tokens Are: ");
-		while (lex.hasNext()) {
-			t = lex.nextToken();
+		t = lex.nextToken();
+		while (t.getType()!=Token.Eof) {
 			System.out.println(t.toString());
+			t = lex.nextToken();
 		}
 	}
 
