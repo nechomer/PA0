@@ -34,6 +34,8 @@ public class AssignCmd extends Cmd {
 		Token token = lex.nextToken();
 		if (token.getType() == Cmd.ASSIGN_CMD) {
 			Parser.setErrCode(assignCmd.getCurrentLineNumber(), 1);
+			lex.nextLine();
+			return;
 		}
 		
 		if (!Parser.checkSpace(assignCmd.getCurrentLineNumber(), lex)) return;
@@ -42,7 +44,10 @@ public class AssignCmd extends Cmd {
 		token = lex.nextToken();
 		if (token.getType() != Token.BinOp && token.getType() != Token.Num && token.getType() != Token.Var) {
 			Parser.setErrCode(assignCmd.getCurrentLineNumber(), 1);
+			lex.nextLine();
+			return;
 		}
+		
 		switch (token.getType()) {
 			case Token.BinOp : {assignCmd.setExp(new BinOpExp(assignCmd.getCurrentLineNumber(), lex, token.getNum())); break;}
 			case Token.Num : {assignCmd.setExp(new NumExp(assignCmd.getCurrentLineNumber(), lex));  break;}

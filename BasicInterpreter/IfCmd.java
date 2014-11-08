@@ -72,7 +72,9 @@ public class IfCmd extends Cmd {
 		if (token.getType() != Token.BoolOp) {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
 			lex.nextLine();
+			return;
 		} 
+		
 		ifCmd.setBoolOP(token.getNum());
 		
 		if (!Parser.checkSpace(ifCmd.getCurrentLineNumber(), lex)) return;
