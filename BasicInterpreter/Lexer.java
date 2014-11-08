@@ -172,9 +172,11 @@ public class Lexer {
            default: break;
         }
         
-        if(isLetter(buffer[currentPos])) 
+        if(isLetter(buffer[currentPos])) {
 	        return new Token(Token.Var,buffer[currentPos++]);
+        }
         
+        currentPos++;
         
         return new Token(Token.Error);
 	}
