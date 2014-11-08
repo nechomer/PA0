@@ -19,10 +19,8 @@ public class Token {
 	 
 	 
 	 protected int     type;    
-	 protected int 	   parVal;
-	 protected String  strVal;
 	 protected char    chrVal;
-	 protected int  numVal; 
+	 protected int     numVal; 
 	 
 	 int getType () {
 		 return type;
@@ -32,8 +30,8 @@ public class Token {
 		 return numVal;
 	 }
 	 
-	 String getStr () {
-		 return strVal;
+	 int getchar () {
+		 return chrVal;
 	 }
 	 
 	 Token(int type) {
@@ -49,16 +47,6 @@ public class Token {
 	     chrVal = this.chrVal;
      }
 	 
-	 Token(int type, String strVal, int parVal) {
-	     type = this.type;
-	     strVal = this.strVal;
-	     parVal = this.parVal;
-     }
-	 
-	 
-	 int typeNum() {
-	     return type;
-	 }
 	 String typeString() {
 	     return names[type];
 	 }
