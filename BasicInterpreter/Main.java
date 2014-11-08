@@ -39,9 +39,7 @@ public class Main {
 		//parse program
 		Parser parser = new Parser(lex);
 		boolean isProgramParsed = parser.parseProgram();
-		
 		closeBr(br);
-		
 		if (isProgramParsed) {
 			//execute program
 			Processor processor = new Processor(linesByRealNumbering.size());
@@ -55,7 +53,7 @@ public class Main {
 		System.out.println("The Tokens Are: ");
 		t = lex.nextToken();
 		while (t.getType()!=Token.Eof) {
-			System.out.println(t.toString());
+			System.out.println(t.typeString());
 			t = lex.nextToken();
 		}
 	}

@@ -13,7 +13,7 @@ public class Processor {
 	
 	public void process(HashMap<Integer, Cmd> parsedProgram, HashMap<Character, Integer> variables, int startingAt) {
 		
-		Cmd currentCmd;
+		Cmd currentCmd = null;
 		Integer expValue;
 		int cmdType;
 		Exp exp;
