@@ -110,14 +110,28 @@ public class Lexer {
                 } 
                 currentPos++;
                 return new Token(Token.BoolOp, IfCmd.GT);
+            case '!' :
+                if (buffer[currentPos+1] == '=') {
+                    currentPos += 2;
+                    return new Token(Token.BoolOp, IfCmd.NEQ);
+                } 
+                currentPos++;
+                return new Token(Token.Error);
+                
+            case '=' :
+                if (buffer[currentPos+1] == '=') {
+                    currentPos += 2;
+                    return new Token(Token.BoolOp, IfCmd.EQ);
+                } 
+                currentPos++;
+                return new Token(Token.Error);   
                 
             case ':' :
                 if (buffer[currentPos+1] == '=') {
                     currentPos += 2;
                     return new Token(Token.Cmd, Cmd.ASSIGN_CMD);
                 } 
-                else
-                	return new Token(Token.Symbol, buffer[currentPos++]);
+                return new Token(Token.Symbol, buffer[currentPos++]);
             
             case 'i' :
                 if (currentPos+1 <= buffer.length && buffer[currentPos+1] == 'f') {
@@ -177,8 +191,12 @@ public class Lexer {
         }
         
         currentPos++;
+<<<<<<< HEAD
+=======
         
+>>>>>>> origin/master
         return new Token(Token.Error);
+        
 	}
 
 }
