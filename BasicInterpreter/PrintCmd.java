@@ -19,7 +19,7 @@ public class PrintCmd extends Cmd {
 	
 	private static void parseCMD(PrintCmd printCmd, Lexer lex) {
 		Token token = lex.nextToken();
-		if (token.getStr() != "(") {
+		if (token.getchar() != '(') {
 			Printer.PrintError(printCmd.getCurrentLineNumber(), 1);
 			return;
 		}
@@ -36,7 +36,7 @@ public class PrintCmd extends Cmd {
 		}
 		
 		token = lex.nextToken();
-		if (token.getStr() != ")") {
+		if (token.getchar() != ')') {
 			Printer.PrintError(printCmd.getCurrentLineNumber(), 1);
 			return;
 		}

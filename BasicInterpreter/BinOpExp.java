@@ -42,7 +42,7 @@ public class BinOpExp extends Exp {
 	}
 	
 	private static void parseEXP(BinOpExp binExp, Lexer lex) {
-		if (!Parser.checkSpaceAndAdvance(binExp.getCurrentLineNumber(), lex)) {lex.nextLine(); return;}
+		if (!Parser.checkSpace(binExp.getCurrentLineNumber(), lex))  return;
 		
 		Token token = lex.nextToken();
 		if (token.getType() != Token.Var || token.getType() != Token.Num || token.getType() != Token.BinOp) {
@@ -57,7 +57,7 @@ public class BinOpExp extends Exp {
 
 		}
 		
-		if (!Parser.checkSpaceAndAdvance(binExp.getCurrentLineNumber(), lex)) {lex.nextLine(); return;};
+		if (!Parser.checkSpace(binExp.getCurrentLineNumber(), lex)) return;
 		token = lex.nextToken();
 		if (token.getType() != Token.Var || token.getType() != Token.Num || token.getType() != Token.BinOp) {
 			Parser.setErrCode(binExp.getCurrentLineNumber(), 1);
@@ -71,7 +71,7 @@ public class BinOpExp extends Exp {
 
 		}
 		
-		if (!Parser.checkSpaceAndAdvance(binExp.getCurrentLineNumber(), lex)) {lex.nextLine(); return;};
+		if (!Parser.checkSpace(binExp.getCurrentLineNumber(), lex)) return;
 
 	}
 	
