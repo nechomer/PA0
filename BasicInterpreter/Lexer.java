@@ -1,4 +1,4 @@
-
+package basicInterpreter;
 
 
 public class Lexer {
@@ -35,18 +35,24 @@ public class Lexer {
 		
 		
         if (currentPos >= buffer.length)
-            return new Token(Token.Eol);
+            return new Token(Token.Error);
 
         previousPos = currentPos;
         
         if (isSpace(buffer[currentPos])) {
+        	
+        	if(currentPos >0 && isSpace(buffer[currentPos-1]))
+        		return new Token(Token.Error);
+        	if(currentPos+1 <buffer.length && isSpace(buffer[currentPos+1]))
+        		return new Token(Token.Error);
+        	
         	currentPos++;
-        	return new Token(Token.Error);
         }
 		
         switch (buffer[currentPos]) {
         
 	        case '+' :
+	        	
 	            currentPos++;
 	            return new Token(Token.BinOp, "+", Parameters.ADD);
 	
