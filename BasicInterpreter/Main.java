@@ -25,6 +25,7 @@ public class Main {
 			br = new BufferedReader(new FileReader(filePath));
 			
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 			return;
 		}
 		
@@ -42,6 +43,7 @@ public class Main {
 		if (isProgramParsed) {
 			//execute program
 			Processor processor = new Processor(linesByRealNumbering.size());
+			processor.process(1);
 		}
 	}
 	
