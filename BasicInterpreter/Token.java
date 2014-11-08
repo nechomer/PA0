@@ -30,7 +30,7 @@ public class Token {
 		 return numVal;
 	 }
 	 
-	 int getchar () {
+	 char getchar () {
 		 return chrVal;
 	 }
 	 

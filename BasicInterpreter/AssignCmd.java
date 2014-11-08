@@ -29,21 +29,22 @@ public class AssignCmd extends Cmd {
 	}
 	
 	private static void parseCMD(AssignCmd assignCmd, Lexer lex) {
-		Lexer.checkSpace(lex);
+		if (!Parser.checkSpace(assignCmd.getCurrentLineNumber(), lex)) return;
 				
 		Token token = lex.nextToken();
-		if (token.getStr() != ":=") {
+		if (token.getType() == Cmd.ASSIGN_CMD) {
 			Parser.setErrCode(assignCmd.getCurrentLineNumber(), 1);
 		}
 		
-		Lexer.checkSpace(lex);
+		if (!Parser.checkSpace(assignCmd.getCurrentLineNumber(), lex)) return;
+
 		
 		token = lex.nextToken();
 		if (token.getType() != Token.BinOp || token.getType() != Token.Num || token.getType() != Token.Var) {
 			Parser.setErrCode(assignCmd.getCurrentLineNumber(), 1);
 		}
 		switch (token.getType()) {
-			case Token.BinOp : assignCmd.setExp(new BinOpExp(assignCmd.getCurrentLineNumber(), lex, token.typeNum()));
+			case Token.BinOp : assignCmd.setExp(new BinOpExp(assignCmd.getCurrentLineNumber(), lex, token.getNum()));
 			case Token.Num : assignCmd.setExp(new NumExp(assignCmd.getCurrentLineNumber(), lex));
 			case Token.Var : assignCmd.setExp(new VarExp(assignCmd.getCurrentLineNumber(), lex));
 		}

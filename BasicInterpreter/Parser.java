@@ -9,16 +9,20 @@ public class Parser {
 	public static HashMap<Integer, Integer> lineErrorMap = new HashMap<Integer, Integer>();
 	private Lexer lex;
 	private static int maxLineIdx = 1;
-	private static int currentLineNum = 1;
+	private static int currentLineNum = 0;
 	
 	public Parser(Lexer lex) {
 		this.lex = lex;
 	}
 	
 	public void parseLine(Lexer lex) {
+		currentLineNum++;
+		
 		Token token = lex.nextToken();
 		if (token.getType() != Token.Num) {
 			Parser.setErrCode(currentLineNum, 1);
+			lex.nextLine();
+			return;
 		}
 		
 		Main.lineNumberingMap.put(token.getNum(), currentLineNum);
@@ -30,20 +34,22 @@ public class Parser {
 		if (!Parser.checkSpace(currentLineNum, lex)) return;
 		
 		token = lex.nextToken();
-		if (token.getStr() != ":") {
-			Parser.setErrCode(currentLineNum, 1);
-		}
-		
-		if (!Parser.checkSpace(currentLineNum, lex)) return;
-		
-		token = lex.nextToken();
-		if (token.getType() != Token.Cmd || token.getType() != Token.Var) {
+		if (!(token.getType() != Token.Symbol && token.getchar() != ':')) {
 			Parser.setErrCode(currentLineNum, 1);
 			lex.nextLine();
 			return;
 		}
 		
-		Cmd currentCmd;
+		if (!Parser.checkSpace(currentLineNum, lex)) return;
+		
+		token = lex.nextToken();
+		if (token.getType() != Token.Cmd && token.getType() != Token.Var) {
+			Parser.setErrCode(currentLineNum, 1);
+			lex.nextLine();
+			return;
+		}
+		
+		Cmd currentCmd = null;
 		
 		switch (token.getNum()) {
 			case (Cmd.IF_CMD) : currentCmd = new IfCmd(currentLineNum, lex);
@@ -51,10 +57,18 @@ public class Parser {
 			case (Cmd.PRINT_CMD) : currentCmd = new PrintCmd(currentLineNum, lex);
 		}
 		if (token.getType() == Token.Var) {
-			currentCmd = new AssignCmd(currentLineNum, lex, token.getStr().charAt(0));
+			currentCmd = new AssignCmd(currentLineNum, lex, token.getchar());
 		}
 		
-		currentLineNum++;
+		token = lex.nextToken();
+		if (token.getType() != Token.Eol) {
+			Parser.setErrCode(currentLineNum, 1);
+			lex.nextLine();
+			return;
+		}
+		
+		Main.linesByRealNumbering.put(currentLineNum, currentCmd);
+		
 	}
 	
 	public boolean parseProgram() {
@@ -62,6 +76,7 @@ public class Parser {
 		while (token.getType() != Token.Eof) {
 			lex.lastToken();
 			parseLine(lex);
+			lex.nextToken();
 		}
 		
 		Iterator<Entry<Integer, Cmd>> iter = Main.linesByRealNumbering.entrySet().iterator();
@@ -92,7 +107,7 @@ public class Parser {
 	
 	public static boolean checkSpace(int currentLineNmuber, Lexer lex){
 		Token token = lex.nextToken();
-		if (!(token.getType() == Token.Symbol && token.getChar() == ' ')) { 
+		if (!(token.getType() == Token.Symbol && token.getchar() == ' ')) { 
 			Parser.setErrCode(currentLineNmuber, 1);
 			lex.nextLine();
 			return false;
