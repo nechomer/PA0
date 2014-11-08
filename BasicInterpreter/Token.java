@@ -35,16 +35,16 @@ public class Token {
 	 }
 	 
 	 Token(int type) {
-	     type = this.type;
+	     this.type = type;
      }
 	 
 	 Token(int type, int numVal) {
-	     type = this.type;
-         numVal = this.numVal;
+	     this.type = type;
+         this.numVal = numVal;
      }
 	 Token(int type, char chrVal) {
-	     type = this.type;
-	     chrVal = this.chrVal;
+	     this.type = type;
+	     this.chrVal = chrVal;
      }
 	 
 	 String typeString() {

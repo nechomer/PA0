@@ -25,7 +25,7 @@ public class Main {
 			br = new BufferedReader(new FileReader(filePath));
 			
 		} catch (FileNotFoundException e) {
-			//do nothing
+			e.printStackTrace();
 			return;
 		}
 		
@@ -34,7 +34,7 @@ public class Main {
 		Lexer lex = new Lexer(br);
 		
 		//checks, to be deleted
-		tokenizerCheker(lex);
+		//tokenizerCheker(lex);
 		
 		//parse program
 		Parser parser = new Parser(lex);
@@ -45,6 +45,7 @@ public class Main {
 		if (isProgramParsed) {
 			//execute program
 			Processor processor = new Processor(linesByRealNumbering.size());
+			processor.process(1);
 		}
 	}
 	

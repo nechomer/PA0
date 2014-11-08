@@ -13,7 +13,7 @@ public class Lexer {
     
 	public Lexer(BufferedReader br) {
 		
-		br = this.br;
+		this.br = br;
 		try {
 			line = br.readLine();
 		} catch (IOException e) {
