@@ -7,6 +7,7 @@ public class Lexer {
 	
     int currentPos = 0;
     int previousPos = 0;
+    int eof = 0;
     BufferedReader br;
     String line;
     char buffer[];
@@ -56,11 +57,16 @@ public class Lexer {
 			currentPos = 0;
 			return true;
     	}
-    	else
+    	else {
+    		eof = 1;
     		return false;
+    	}
+    		
     }
 	public Token nextToken() {
 		
+		if (eof == 1)
+			return new Token(Token.Eof);
 		
         if (currentPos >= buffer.length)
             return new Token(Token.Error);
