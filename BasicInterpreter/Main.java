@@ -37,7 +37,8 @@ public class Main {
 		tokenizerCheker(lex);
 		
 		//parse program
-		boolean isProgramParsed;
+		Parser parser = new Parser(lex);
+		boolean isProgramParsed = parser.parseProgram();
 		closeBr(br);
 		if (isProgramParsed) {
 			//execute program

@@ -27,18 +27,19 @@ public class Parser {
 		
 		maxLineIdx = token.getNum();
 		
-		Lexer.checkSpace(lex);
+		if (!Parser.checkSpace(currentLineNum, lex)) return;
 		
 		token = lex.nextToken();
 		if (token.getStr() != ":") {
 			Parser.setErrCode(currentLineNum, 1);
 		}
 		
-		Lexer.checkSpace(lex);
+		if (!Parser.checkSpace(currentLineNum, lex)) return;
 		
 		token = lex.nextToken();
-		if (token.getType() != Token.CMD || token.getType() != Token.Var) {
+		if (token.getType() != Token.Cmd || token.getType() != Token.Var) {
 			Parser.setErrCode(currentLineNum, 1);
+			lex.nextLine();
 			return;
 		}
 		
@@ -58,7 +59,7 @@ public class Parser {
 	
 	public boolean parseProgram() {
 		Token token = lex.nextToken();
-		while (token != Token.EOF) {
+		while (token.getType() != Token.Eof) {
 			lex.lastToken();
 			parseLine(lex);
 		}
@@ -89,6 +90,13 @@ public class Parser {
 		}
 	}
 	
-	public static void checkSpace(Lexer lex);
-	
+	public static boolean checkSpace(int currentLineNmuber, Lexer lex){
+		Token token = lex.nextToken();
+		if (!(token.getType() == Token.Symbol && token.getChar() == ' ')) { 
+			Parser.setErrCode(currentLineNmuber, 1);
+			lex.nextLine();
+			return false;
+		}
+		return true;
+	}
 }

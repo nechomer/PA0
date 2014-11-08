@@ -3,19 +3,19 @@ public class Token {
 	
 	
     final static String names[] = {
-        "cmd", "exp", "var", "num", "boolop", "binop", "symbol", "error", "eol",
+        "cmd", "var", "num", "boolop", "binop", "symbol", "error", "eol", "eof"
     };
     
     /** The different types of token */
 	 final static int Cmd    = 0; 
-	 final static int Var    = 2;
-	 final static int Num    = 3; 
-	 final static int BoolOp = 4; 
-	 final static int BinOp  = 5;
-	 final static int Symbol = 6;
-	 final static int Error  = 7;
-	 final static int Eol    = 8;
-	 final static int Eof    = 9;
+	 final static int Var    = 1;
+	 final static int Num    = 2; 
+	 final static int BoolOp = 3; 
+	 final static int BinOp  = 4;
+	 final static int Symbol = 5;
+	 final static int Error  = 6;
+	 final static int Eol    = 7;
+	 final static int Eof    = 8;
 	 
 	 
 	 protected int     type;    

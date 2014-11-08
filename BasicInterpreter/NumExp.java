@@ -18,16 +18,16 @@ public class NumExp extends Exp {
 	}
 	
 	private static void parseExp(NumExp numExp, Lexer lex) {
-		Lexer.checkSpace(lex);
+		if (!Parser.checkSpaceAndAdvance(numExp.getCurrentLineNumber(), lex)) {lex.nextLine(); return;}
 		
-		Token token = lex.getNextToken();
-		if (token.getType() != Token.NUM) {
+		Token token = lex.nextToken();
+		if (token.getType() != Token.Num) {
 			Parser.setErrCode(numExp.getCurrentLineNumber(), 1);
 			return;
 		}
 		numExp.setVal(token.getNum());
 		
-		Lexer.checkSpace(lex);
+		if (!Parser.checkSpaceAndAdvance(numExp.getCurrentLineNumber(), lex)) {lex.nextLine(); return;}
 		
 	}
 
