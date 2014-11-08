@@ -16,8 +16,8 @@ public class Parser {
 	}
 	
 	public void parseLine(Lexer lex) {
-		Token token = lex.getNextToken();
-		if (token.getType() != Token.NUM) {
+		Token token = lex.nextToken();
+		if (token.getType() != Token.Num) {
 			Parser.setErrCode(currentLineNum, 1);
 		}
 		
@@ -29,15 +29,15 @@ public class Parser {
 		
 		Lexer.checkSpace(lex);
 		
-		token = lex.getNextToken();
+		token = lex.nextToken();
 		if (token.getStr() != ":") {
 			Parser.setErrCode(currentLineNum, 1);
 		}
 		
 		Lexer.checkSpace(lex);
 		
-		token = lex.getNextToken();
-		if (token.getType() != Token.CMD || token.getType() != Token.VAR) {
+		token = lex.nextToken();
+		if (token.getType() != Token.CMD || token.getType() != Token.Var) {
 			Parser.setErrCode(currentLineNum, 1);
 			return;
 		}
@@ -49,7 +49,7 @@ public class Parser {
 			case (Cmd.GOTO_CMD) : currentCmd = new GOTOCmd(currentLineNum, lex);
 			case (Cmd.PRINT_CMD) : currentCmd = new PrintCmd(currentLineNum, lex);
 		}
-		if (token.getType() == Token.VAR) {
+		if (token.getType() == Token.Var) {
 			currentCmd = new AssignCmd(currentLineNum, lex, token.getStr().charAt(0));
 		}
 		
@@ -57,9 +57,9 @@ public class Parser {
 	}
 	
 	public boolean parseProgram() {
-		Token token = lex.getNextToken();
+		Token token = lex.nextToken();
 		while (token != Token.EOF) {
-			lex.getLastToken();
+			lex.lastToken();
 			parseLine(lex);
 		}
 		

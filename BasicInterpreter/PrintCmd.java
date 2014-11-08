@@ -18,31 +18,31 @@ public class PrintCmd extends Cmd {
 	}
 	
 	private static void parseCMD(PrintCmd printCmd, Lexer lex) {
-		Token token = lex.getNextToken();
+		Token token = lex.nextToken();
 		if (token.getStr() != "(") {
 			Printer.PrintError(printCmd.getCurrentLineNumber(), 1);
 			return;
 		}
 		
-		Token token = lex.getNextToken();
-		if (token.getType() != Token.BinOp || token.getType() != Token.Num || || token.getType() != Token.Var) {
+		token = lex.nextToken();
+		if (token.getType() != Token.BinOp || token.getType() != Token.Num || token.getType() != Token.Var) {
 			Printer.PrintError(printCmd.getCurrentLineNumber(), 1);
 			return;
 		}
 		switch (token.getType()) {
-			case (Token.BinOp) : printCmd.setExp(new BinExp(lex));
-			case (Token.Num)   : printCmd.setExp(new NumExp(lex));
-			case (Token.Var)   : printCmd.setExp(new VarExp(lex));
+			case (Token.BinOp) : printCmd.setExp(new BinOpExp(printCmd.getCurrentLineNumber(), lex, token.getNum()));
+			case (Token.Num)   : printCmd.setExp(new NumExp(printCmd.getCurrentLineNumber(), lex));
+			case (Token.Var)   : printCmd.setExp(new VarExp(printCmd.getCurrentLineNumber(), lex));
 		}
 		
-		token = lex.getNextToken();
+		token = lex.nextToken();
 		if (token.getStr() != ")") {
 			Printer.PrintError(printCmd.getCurrentLineNumber(), 1);
 			return;
 		}
 		
-		token = lex.getNextToken();
-		if (token.getType() != Token.EOL) {
+		token = lex.nextToken();
+		if (token.getType() != Token.Eol) {
 			Printer.PrintError(printCmd.getCurrentLineNumber(), 1);
 			return;
 		}

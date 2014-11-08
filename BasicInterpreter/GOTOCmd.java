@@ -20,8 +20,8 @@ public class GOTOCmd extends Cmd {
 	}
 	
 	private static void parseCMD(GOTOCmd gotoCmd, Lexer lex) {
-		Token token = lex.getNextToken();
-		if (token.getType() != Token.NUM) {
+		Token token = lex.nextToken();
+		if (token.getType() != Token.Num) {
 			Parser.setErrCode(gotoCmd.getCurrentLineNumber(), 1);
 		}
 	}

@@ -20,8 +20,8 @@ public class VarExp extends Exp {
 	private static void parseEXP(VarExp varExp, Lexer lex) {
 		Lexer.checkSpace(lex);
 		
-		Token token = lex.getNextToken();
-		if (token.getType() != Token.VAR) {
+		Token token = lex.nextToken();
+		if (token.getType() != Token.Var) {
 			Parser.setErrCode(varExp.getCurrentLineNumber(), 1);
 		}
 	}

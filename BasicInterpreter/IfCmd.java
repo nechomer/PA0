@@ -51,42 +51,42 @@ public class IfCmd extends Cmd {
 	}
 	
 	private static void parseCMD(IfCmd ifCmd, Lexer lex) {
-		Token token = lex.getNextToken();
+		Token token = lex.nextToken();
 		if (token.getStr() != "(") {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
 		}
 		
 		//checkSpace
 		
-		token = lex.getNextToken();
-		if (token.getType() != Token.VAR) {
+		token = lex.nextToken();
+		if (token.getType() != Token.Var) {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
 		} 
 		ifCmd.setVar1(token.getStr().charAt(0));
 		
 		//checkSpace
 		
-		token = lex.getNextToken();
-		if (token.getType() != Token.BOOLOP) {
+		token = lex.nextToken();
+		if (token.getType() != Token.BoolOp) {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
 		} 
 		ifCmd.setBoolOP(token.getNum());
 		
 		//checkSpace
 		
-		token = lex.getNextToken();
-		if (token.getType() != Token.VAR) {
+		token = lex.nextToken();
+		if (token.getType() != Token.Var) {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
 		} 
 		ifCmd.setVar2(token.getStr().charAt(0));
 		
-		token = lex.getNextToken();
+		token = lex.nextToken();
 		if (token.getStr() != ")") {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
 		} 
 		
-		token = lex.getNextToken();
-		if (token.getType() != Token.CMD || token.getType() != Token.VAR) {
+		token = lex.nextToken();
+		if (token.getType() != Token.Cmd || token.getType() != Token.Var) {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
 		} 
 		switch (token.getNum()) {
@@ -94,7 +94,7 @@ public class IfCmd extends Cmd {
 			case Cmd.IF_CMD : ifCmd.setNextCmd(new IfCmd(ifCmd.getCurrentLineNumber(), lex));;
 			case Cmd.PRINT_CMD : ifCmd.setNextCmd(new PrintCmd(ifCmd.getCurrentLineNumber(), lex));;
 		}
-		if (token.getType() == Token.VAR) {
+		if (token.getType() == Token.Var) {
 			ifCmd.setNextCmd(new AssignCmd(ifCmd.getCurrentLineNumber(), lex, token.getStr().charAt(0)));
 		}
 	}

@@ -18,7 +18,7 @@ public class Processor {
 		int cmdType;
 		Exp exp;
 		IfCmd ifCmd;
-		GotoCmd gotoCmd;
+		GOTOCmd gotoCmd;
 		AssignCmd assignCmd;
 		PrintCmd printCmd;
 		boolean isIfCmd = false;
@@ -48,11 +48,11 @@ public class Processor {
 				currentLine +=interval;
 				continue;
 			case Cmd.GOTO_CMD :
-				gotoCmd = (GotoCmd) currentCmd;
-				int lineNumber = GotoCmd.getLineNumber();
+				gotoCmd = (GOTOCmd) currentCmd;
+				int lineNumber = gotoCmd.getLineNumber();
 				currentLine = lineNumber;
 				continue;
-			case Cmd.ASSAIGN_CMD :
+			case Cmd.ASSIGN_CMD :
 				assignCmd = (AssignCmd) currentCmd;
 				Character assignedVar = assignCmd.getVar();
 				exp = assignCmd.getExp();

@@ -31,25 +31,25 @@ public class AssignCmd extends Cmd {
 	private static void parseCMD(AssignCmd assignCmd, Lexer lex) {
 		Lexer.checkSpace(lex);
 				
-		Token token = lex.getNextToken();
+		Token token = lex.nextToken();
 		if (token.getStr() != ":=") {
 			Parser.setErrCode(assignCmd.getCurrentLineNumber(), 1);
 		}
 		
 		Lexer.checkSpace(lex);
 		
-		token = lex.getNextToken();
-		if (token.getType() != Token.BINOP || token.getType() != Token.NUM || token.getType() != Token.VAR) {
+		token = lex.nextToken();
+		if (token.getType() != Token.BinOp || token.getType() != Token.Num || token.getType() != Token.Var) {
 			Parser.setErrCode(assignCmd.getCurrentLineNumber(), 1);
 		}
 		switch (token.getType()) {
-			case Token.BINOP : assignCmd.setExp(new BinOpExp(assignCmd.getCurrentLineNumber(), lex, token.typeNum()));
-			case Token.NUM : assignCmd.setExp(new NumExp(assignCmd.getCurrentLineNumber(), lex));
-			case Token.VAR : assignCmd.setExp(new VarExp(assignCmd.getCurrentLineNumber(), lex));
+			case Token.BinOp : assignCmd.setExp(new BinOpExp(assignCmd.getCurrentLineNumber(), lex, token.typeNum()));
+			case Token.Num : assignCmd.setExp(new NumExp(assignCmd.getCurrentLineNumber(), lex));
+			case Token.Var : assignCmd.setExp(new VarExp(assignCmd.getCurrentLineNumber(), lex));
 		}
 		
-		token = lex.getNextToken();
-		if (token.getType() != Token.EOL) {
+		token = lex.nextToken();
+		if (token.getType() != Token.Eol) {
 			Parser.setErrCode(assignCmd.getCurrentLineNumber(), 1);
 		}
 	}

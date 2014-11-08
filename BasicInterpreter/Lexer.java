@@ -1,5 +1,3 @@
-package basicInterpreter;
-
 
 public class Lexer {
 	
@@ -54,35 +52,35 @@ public class Lexer {
 	        case '+' :
 	        	
 	            currentPos++;
-	            return new Token(Token.BinOp, "+", Parameters.ADD);
+	            return new Token(Token.BinOp, "+", BinOpExp.ADD);
 	
 	        case '-' :
 	            currentPos++;
-	            return new Token(Token.BinOp, "-", Parameters.SUB);
+	            return new Token(Token.BinOp, "-", BinOpExp.SUB);
 	
 	        case '*' :
 	            currentPos++;
-	            return new Token(Token.BinOp, "*", Parameters.MUL);
+	            return new Token(Token.BinOp, "*", BinOpExp.MUL);
 	
 	        case '/' :
 	            currentPos++;
-	            return new Token(Token.BinOp, "\\", Parameters.DIV);
+	            return new Token(Token.BinOp, "\\", BinOpExp.DIV);
 	            
             case '<' :
                 if (buffer[currentPos+1] == '=') {
                     currentPos += 2;
-                    return new Token(Token.BoolOp, "<=", Parameters.LE);
+                    return new Token(Token.BoolOp, "<=", IfCmd.LE);
                 }
                 currentPos++;
-                return new Token(Token.BoolOp, "<", Parameters.LT);
+                return new Token(Token.BoolOp, "<", IfCmd.LT);
 
             case '>' :
                 if (buffer[currentPos+1] == '=') {
                     currentPos += 2;
-                    return new Token(Token.BoolOp, ">=", Parameters.GE);
+                    return new Token(Token.BoolOp, ">=", IfCmd.GE);
                 } 
                 currentPos++;
-                return new Token(Token.BoolOp, ">", Parameters.GT);
+                return new Token(Token.BoolOp, ">", IfCmd.GT);
                 
             case ':' :
                 if (buffer[currentPos+1] == '=') {

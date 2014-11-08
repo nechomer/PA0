@@ -43,30 +43,30 @@ public class BinOpExp extends Exp {
 	
 	private static void parseEXP(BinOpExp binExp, Lexer lex) {
 		Token.checkSpace(lex);
-		Token token = lex.getNextToken();
-		if (token.getType() != Token.VAR || token.getType() != Token.NUM || token.getType() != Token.BINOP) {
+		Token token = lex.nextToken();
+		if (token.getType() != Token.Var || token.getType() != Token.Num || token.getType() != Token.BinOp) {
 			Parser.setErrCode(binExp.getCurrentLineNumber(), 1);
 			return;
 		}
 		
 		switch (token.getType()) {
-		case (Token.VAR) :   binExp.setVar1(new VarExp(binExp.getCurrentLineNumber(), lex));
-		case (Token.NUM) :   binExp.setVar1(new NumExp(binExp.getCurrentLineNumber(), lex));
-		case (Token.BINOP) : binExp.setVar1(new BinOpExp(binExp.getCurrentLineNumber(), lex, token.getNum()));
+		case (Token.Var) :   binExp.setVar1(new VarExp(binExp.getCurrentLineNumber(), lex));
+		case (Token.Num) :   binExp.setVar1(new NumExp(binExp.getCurrentLineNumber(), lex));
+		case (Token.BinOp) : binExp.setVar1(new BinOpExp(binExp.getCurrentLineNumber(), lex, token.getNum()));
 
 		}
 		
 		Token.checkSpace(lex);
-		token = lex.getNextToken();
-		if (token.getType() != Token.VAR || token.getType() != Token.NUM || token.getType() != Token.BINOP) {
+		token = lex.nextToken();
+		if (token.getType() != Token.Var || token.getType() != Token.Num || token.getType() != Token.BinOp) {
 			Parser.setErrCode(binExp.getCurrentLineNumber(), 1);
 			return;
 		}
 		
 		switch (token.getType()) {
-		case (Token.VAR) :   {binExp.setVar2(new VarExp(binExp.getCurrentLineNumber(), lex));}
-		case (Token.NUM) :   {binExp.setVar2(new NumExp(binExp.getCurrentLineNumber(), lex));}
-		case (Token.BINOP) : {binExp.setVar2(new BinOpExp(binExp.getCurrentLineNumber(), lex, token.getNum()));}
+		case (Token.Var) :   {binExp.setVar2(new VarExp(binExp.getCurrentLineNumber(), lex));}
+		case (Token.Num) :   {binExp.setVar2(new NumExp(binExp.getCurrentLineNumber(), lex));}
+		case (Token.BinOp) : {binExp.setVar2(new BinOpExp(binExp.getCurrentLineNumber(), lex, token.getNum()));}
 
 		}
 		
@@ -75,7 +75,7 @@ public class BinOpExp extends Exp {
 	}
 	
 	public int evalExp() {
-		if (var1.valIsValid() && var2.valIsValid()) {
+		if (valIsValid()) {
 			switch (binOP) {
 				case (ADD) : return var1.evalExp() + var2.evalExp(); 
 				case (SUB) : return var1.evalExp() - var2.evalExp(); 
@@ -86,5 +86,10 @@ public class BinOpExp extends Exp {
 		Printer.PrintError(getCurrentLineNumber(), 4);
 		System.exit(0); 
 		return 0;
+	}
+
+	@Override
+	public boolean valIsValid() {
+		return var1.valIsValid() && var2.valIsValid();
 	}
 }
