@@ -44,9 +44,9 @@ public class AssignCmd extends Cmd {
 			Parser.setErrCode(assignCmd.getCurrentLineNumber(), 1);
 		}
 		switch (token.getType()) {
-			case Token.BinOp : assignCmd.setExp(new BinOpExp(assignCmd.getCurrentLineNumber(), lex, token.getNum()));
-			case Token.Num : assignCmd.setExp(new NumExp(assignCmd.getCurrentLineNumber(), lex));
-			case Token.Var : assignCmd.setExp(new VarExp(assignCmd.getCurrentLineNumber(), lex));
+			case Token.BinOp : {assignCmd.setExp(new BinOpExp(assignCmd.getCurrentLineNumber(), lex, token.getNum())); break;}
+			case Token.Num : {assignCmd.setExp(new NumExp(assignCmd.getCurrentLineNumber(), lex));  break;}
+			case Token.Var : {assignCmd.setExp(new VarExp(assignCmd.getCurrentLineNumber(), lex));  break;}
 		}
 		
 	}

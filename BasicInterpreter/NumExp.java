@@ -18,7 +18,7 @@ public class NumExp extends Exp {
 	}
 	
 	private static void parseExp(NumExp numExp, Lexer lex) {
-		
+		lex.lastToken();
 		Token token = lex.nextToken();
 		if (token.getType() != Token.Num) {
 			Parser.setErrCode(numExp.getCurrentLineNumber(), 1);

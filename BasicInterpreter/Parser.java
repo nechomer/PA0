@@ -53,9 +53,9 @@ public class Parser {
 		
 		if (token.getType() == Token.Cmd) {
 			switch (token.getNum()) {
-				case (Cmd.IF_CMD) : currentCmd = new IfCmd(currentLineNum, lex);
-				case (Cmd.GOTO_CMD) : currentCmd = new GOTOCmd(currentLineNum, lex);
-				case (Cmd.PRINT_CMD) : currentCmd = new PrintCmd(currentLineNum, lex);
+				case (Cmd.IF_CMD) : {currentCmd = new IfCmd(currentLineNum, lex); break; }
+				case (Cmd.GOTO_CMD) : {currentCmd = new GOTOCmd(currentLineNum, lex); break; }
+				case (Cmd.PRINT_CMD) : {currentCmd = new PrintCmd(currentLineNum, lex); break; }
 			}
 		} else {
 			currentCmd = new AssignCmd(currentLineNum, lex, token.getchar());
