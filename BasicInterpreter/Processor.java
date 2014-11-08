@@ -1,4 +1,7 @@
 
+
+import java.util.HashMap;
+
 public class Processor {
 
 	private int LastLine;
@@ -10,7 +13,7 @@ public class Processor {
 	
 	public void process(int startingAt) {
 		
-		Cmd currentCmd = null;
+		Cmd currentCmd;
 		Integer expValue;
 		int cmdType;
 		Exp exp;
@@ -27,38 +30,34 @@ public class Processor {
 			if (!isIfCmd)  {
 				//extract next line
 				currentCmd = Main.linesByRealNumbering.get(currentLine);
-				isIfCmd = false;
 			}
+			isIfCmd = false;
 			
 			cmdType = currentCmd.getType();
 			
 			switch(cmdType) {
 			case Cmd.IF_CMD :
 				ifCmd = (IfCmd) currentCmd;
-				Boolean ifConditionValue = ifCmd.evalCondition();
-				if (ifConditionValue == null) {
-					break;
+				boolean ifConditionValue = ifCmd.evalCondition();
+				if (false == ifConditionValue) { //condition false go to next line
+					currentLine +=interval;
+				} else {//condition is true, evaluate Cmd
+					isIfCmd = true;
+					currentCmd = currentCmd.getCmd();
 				}
-				//evaluate Cmd
-				 if (ifConditionValue == true) {
-					 currentCmd = ((IfCmd)currentCmd).getNextCmd();
-				 }else { 
-					 currentLine +=interval;
-				 }
-				 break;
+				break;
 			case Cmd.GOTO_CMD :
-				gotoCmd = (GOTOCmd) currentCmd;
-				int lineNumber = gotoCmd.getLineNumber();
-				currentLine = lineNumber;
-				continue;
+				gotoCmd = (GotoCmd) currentCmd;
+				int imgLineNumber = GotoCmd.getLineNumber();
+				//get real line number from imaginary
+				int realLineNumber = Main.lineNumberingMap.get(imgLineNumber);
+				currentLine = realLineNumber;
+				break;
 			case Cmd.ASSIGN_CMD :
 				assignCmd = (AssignCmd) currentCmd;
 				Character assignedVar = assignCmd.getVar();
 				exp = assignCmd.getExp();
 				expValue = exp.evalExp();
-				if (null == expValue) {//runtime error
-					break;
-				}
 				Main.variables.put(assignedVar, expValue);
 				currentLine +=interval;
 				break;
@@ -66,9 +65,6 @@ public class Processor {
 				printCmd = (PrintCmd) currentCmd;
 				exp = printCmd.getExp();
 				expValue = exp.evalExp();
-				if (null == expValue) {//runtime error
-					break;
-				}
 				Printer.Print(expValue);
 				currentLine +=interval;
 				break;
