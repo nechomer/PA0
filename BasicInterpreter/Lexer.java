@@ -91,7 +91,7 @@ public class Lexer {
 	            currentPos++;
 	            return new Token(Token.BinOp, BinOpExp.MUL);
 	
-	        case '/' :
+	        case '\\' :
 	            currentPos++;
 	            return new Token(Token.BinOp, BinOpExp.DIV);
 	            
@@ -157,11 +157,10 @@ public class Lexer {
                 
             case ';' :
                 if (currentPos+1 == buffer.length) {
+			
+                	nextLine();
+					return new Token(Token.Eol);
 					
-                	if(nextLine())
-						return new Token(Token.Eol);
-					else
-						return new Token(Token.Eof);
                 } 
                 else 
                 	return new Token(Token.Error);
@@ -191,10 +190,7 @@ public class Lexer {
         }
         
         currentPos++;
-<<<<<<< HEAD
-=======
-        
->>>>>>> origin/master
+
         return new Token(Token.Error);
         
 	}

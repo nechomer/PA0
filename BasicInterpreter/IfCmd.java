@@ -52,49 +52,62 @@ public class IfCmd extends Cmd {
 	
 	private static void parseCMD(IfCmd ifCmd, Lexer lex) {
 		Token token = lex.nextToken();
-		if (token.getchar() != ')') {
+		if (token.getchar() != '(') {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
+			lex.nextLine();
+			return;
 		}
-		
-		//checkSpace
-		
+				
 		token = lex.nextToken();
 		if (token.getType() != Token.Var) {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
+			lex.nextLine();
+			return;
 		} 
 		ifCmd.setVar1(token.getchar());
 		
-		//checkSpace
+		if (!Parser.checkSpace(ifCmd.getCurrentLineNumber(), lex)) return;
 		
 		token = lex.nextToken();
 		if (token.getType() != Token.BoolOp) {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
+			lex.nextLine();
 		} 
 		ifCmd.setBoolOP(token.getNum());
 		
-		//checkSpace
+		if (!Parser.checkSpace(ifCmd.getCurrentLineNumber(), lex)) return;
 		
 		token = lex.nextToken();
 		if (token.getType() != Token.Var) {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
+			lex.nextLine();
+			return;
 		} 
 		ifCmd.setVar2(token.getchar());
 		
 		token = lex.nextToken();
 		if (token.getchar() != ')') {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
+			lex.nextLine();
+			return;
 		} 
 		
+		if (!Parser.checkSpace(ifCmd.getCurrentLineNumber(), lex)) return;
+
 		token = lex.nextToken();
-		if (token.getType() != Token.Cmd || token.getType() != Token.Var) {
+		if (token.getType() != Token.Cmd && token.getType() != Token.Var) {
 			Parser.setErrCode(ifCmd.getCurrentLineNumber(), 1);
+			lex.nextLine();
+			return;
 		} 
-		switch (token.getNum()) {
-			case Cmd.GOTO_CMD : ifCmd.setNextCmd(new GOTOCmd(ifCmd.getCurrentLineNumber(), lex));
-			case Cmd.IF_CMD : ifCmd.setNextCmd(new IfCmd(ifCmd.getCurrentLineNumber(), lex));;
-			case Cmd.PRINT_CMD : ifCmd.setNextCmd(new PrintCmd(ifCmd.getCurrentLineNumber(), lex));;
-		}
-		if (token.getType() == Token.Var) {
+		
+		if (token.getType() == Token.Cmd) {
+			switch (token.getNum()) {
+				case Cmd.GOTO_CMD : {ifCmd.setNextCmd(new GOTOCmd(ifCmd.getCurrentLineNumber(), lex)); break;}
+				case Cmd.IF_CMD : {ifCmd.setNextCmd(new IfCmd(ifCmd.getCurrentLineNumber(), lex)); break;}
+				case Cmd.PRINT_CMD : {ifCmd.setNextCmd(new PrintCmd(ifCmd.getCurrentLineNumber(), lex)); break;}
+			} 
+		} else {
 			ifCmd.setNextCmd(new AssignCmd(ifCmd.getCurrentLineNumber(), lex, token.getchar()));
 		}
 	}

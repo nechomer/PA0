@@ -2,7 +2,7 @@
 public class Processor {
 
 	private int LastLine;
-	private static final int interval = 10;
+	private static final int interval = 1;
 	
 	public Processor(int LastLine) {
 		this.LastLine = LastLine;
@@ -36,14 +36,16 @@ public class Processor {
 			case Cmd.IF_CMD :
 				ifCmd = (IfCmd) currentCmd;
 				Boolean ifConditionValue = ifCmd.evalCondition();
-				if (null == ifConditionValue) {
+				if (ifConditionValue == null) {
 					break;
 				}
 				//evaluate Cmd
-				isIfCmd = true;
-				currentCmd = ((IfCmd)currentCmd).getNextCmd();
-				currentLine +=interval;
-				continue;
+				 if (ifConditionValue == true) {
+					 currentCmd = ((IfCmd)currentCmd).getNextCmd();
+				 }else { 
+					 currentLine +=interval;
+				 }
+				 break;
 			case Cmd.GOTO_CMD :
 				gotoCmd = (GOTOCmd) currentCmd;
 				int lineNumber = gotoCmd.getLineNumber();
@@ -59,7 +61,7 @@ public class Processor {
 				}
 				Main.variables.put(assignedVar, expValue);
 				currentLine +=interval;
-				continue;
+				break;
 			case Cmd.PRINT_CMD :
 				printCmd = (PrintCmd) currentCmd;
 				exp = printCmd.getExp();
@@ -69,7 +71,7 @@ public class Processor {
 				}
 				Printer.Print(expValue);
 				currentLine +=interval;
-				continue;
+				break;
 			default :
 				break;
 			}

@@ -79,7 +79,7 @@ public class Parser {
 		while (token.getType() != Token.Eof) {
 			lex.lastToken();
 			parseLine(lex);
-			lex.nextToken();
+			token = lex.nextToken();
 		}
 		
 		Iterator<Entry<Integer, Cmd>> iter = Main.linesByRealNumbering.entrySet().iterator();
@@ -99,13 +99,15 @@ public class Parser {
 			}
 		}
 		
-		return !lineErrorMap.isEmpty();
+		return lineErrorMap.isEmpty();
 	}
 	
 	public static void setErrCode(int currentLineNumber, int errCode) {
-		if (lineErrorMap.get(currentLineNumber) > errCode || lineErrorMap.get(currentLineNumber) == null) {
-			lineErrorMap.put(currentLineNumber, errCode);
-		}
+		if (lineErrorMap.containsKey(currentLineNumber)) {
+			if (lineErrorMap.get(currentLineNumber) > errCode) {
+				lineErrorMap.put(currentLineNumber, errCode);
+			} 
+		} else lineErrorMap.put(currentLineNumber, errCode);
 	}
 	
 	public static boolean checkSpace(int currentLineNmuber, Lexer lex){

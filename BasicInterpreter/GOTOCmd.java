@@ -15,14 +15,20 @@ public class GOTOCmd extends Cmd {
 
 	public GOTOCmd(int currentLineNumber, Lexer lex) {
 		super(GOTO_CMD, currentLineNumber);
-		this.currentLineNumber = currentLineNumber;
 		parseCMD(this, lex);
 	}
 	
 	private static void parseCMD(GOTOCmd gotoCmd, Lexer lex) {
+		if (!Parser.checkSpace(gotoCmd.getCurrentLineNumber(), lex)) return;
+		
 		Token token = lex.nextToken();
 		if (token.getType() != Token.Num) {
 			Parser.setErrCode(gotoCmd.getCurrentLineNumber(), 1);
+			lex.nextLine();
+			return;
 		}
+		
+		gotoCmd.setLineNumber(token.getNum());
+		
 	}
 }

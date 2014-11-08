@@ -22,7 +22,11 @@ public class VarExp extends Exp {
 		Token token = lex.nextToken();
 		if (token.getType() != Token.Var) {
 			Parser.setErrCode(varExp.getCurrentLineNumber(), 1);
+			lex.nextLine();
+			return;
 		}
+		
+		varExp.setName(token.getchar());
 	}
 	
 	public int evalExp() {

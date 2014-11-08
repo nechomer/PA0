@@ -45,34 +45,34 @@ public class BinOpExp extends Exp {
 		if (!Parser.checkSpace(binExp.getCurrentLineNumber(), lex))  return;
 		
 		Token token = lex.nextToken();
-		if (token.getType() != Token.Var || token.getType() != Token.Num || token.getType() != Token.BinOp) {
+		if (token.getType() != Token.Var && token.getType() != Token.Num && token.getType() != Token.BinOp) {
 			Parser.setErrCode(binExp.getCurrentLineNumber(), 1);
+			lex.nextLine();
 			return;
 		}
 		
 		switch (token.getType()) {
-		case (Token.Var) :   binExp.setVar1(new VarExp(binExp.getCurrentLineNumber(), lex));
-		case (Token.Num) :   binExp.setVar1(new NumExp(binExp.getCurrentLineNumber(), lex));
-		case (Token.BinOp) : binExp.setVar1(new BinOpExp(binExp.getCurrentLineNumber(), lex, token.getNum()));
+		case (Token.Var) :   {binExp.setVar1(new VarExp(binExp.getCurrentLineNumber(), lex)); break; }
+		case (Token.Num) :   {binExp.setVar1(new NumExp(binExp.getCurrentLineNumber(), lex)); break; }
+		case (Token.BinOp) : {binExp.setVar1(new BinOpExp(binExp.getCurrentLineNumber(), lex, token.getNum())); break; }
 
 		}
 		
 		if (!Parser.checkSpace(binExp.getCurrentLineNumber(), lex)) return;
 		token = lex.nextToken();
-		if (token.getType() != Token.Var || token.getType() != Token.Num || token.getType() != Token.BinOp) {
+		if (token.getType() != Token.Var && token.getType() != Token.Num && token.getType() != Token.BinOp) {
 			Parser.setErrCode(binExp.getCurrentLineNumber(), 1);
+			lex.nextLine();
 			return;
 		}
 		
 		switch (token.getType()) {
-		case (Token.Var) :   {binExp.setVar2(new VarExp(binExp.getCurrentLineNumber(), lex));}
-		case (Token.Num) :   {binExp.setVar2(new NumExp(binExp.getCurrentLineNumber(), lex));}
-		case (Token.BinOp) : {binExp.setVar2(new BinOpExp(binExp.getCurrentLineNumber(), lex, token.getNum()));}
+		case (Token.Var) :   {binExp.setVar2(new VarExp(binExp.getCurrentLineNumber(), lex)); break; }
+		case (Token.Num) :   {binExp.setVar2(new NumExp(binExp.getCurrentLineNumber(), lex)); break; }
+		case (Token.BinOp) : {binExp.setVar2(new BinOpExp(binExp.getCurrentLineNumber(), lex, token.getNum())); break; }
 
 		}
 		
-		if (!Parser.checkSpace(binExp.getCurrentLineNumber(), lex)) return;
-
 	}
 	
 	public int evalExp() {
