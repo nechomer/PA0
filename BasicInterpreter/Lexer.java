@@ -1,18 +1,29 @@
-package basicInterpreter;
+import java.io.BufferedReader;
+import java.io.IOException;
+
 
 
 public class Lexer {
 	
     int currentPos = 0;
     int previousPos = 0;
+    BufferedReader br;
+    String line;
     char buffer[];
-	public Lexer(String data) {
+    
+	public Lexer(BufferedReader br) {
 		
-		buffer = data.toCharArray();
+		br = this.br;
+		try {
+			line = br.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		buffer = line.toCharArray();
 		currentPos = 0;
 	}
 	
-    /** Return true if  char is whitespace. */
     static boolean isSpace(char c) {
         return ((c == ' ') || (c == '\t'));
     }   
@@ -30,7 +41,17 @@ public class Lexer {
             currentPos = previousPos;
         }
     }
-    
+
+    public boolean nextLine () throws IOException {
+    	
+    	if( (line = br.readLine())!= null ) {
+    		buffer = line.toCharArray();
+			currentPos = 0;
+			return true;
+    	}
+    	else
+    		return false;
+    }
 	public Token nextToken() {
 		
 		
@@ -39,50 +60,43 @@ public class Lexer {
 
         previousPos = currentPos;
         
-        if (isSpace(buffer[currentPos])) {
-        	
-        	if(currentPos >0 && isSpace(buffer[currentPos-1]))
-        		return new Token(Token.Error);
-        	if(currentPos+1 <buffer.length && isSpace(buffer[currentPos+1]))
-        		return new Token(Token.Error);
-        	
-        	currentPos++;
-        }
+        if (isSpace(buffer[currentPos]))
+        	return new Token(Token.Symbol, buffer[currentPos++]);
 		
         switch (buffer[currentPos]) {
         
 	        case '+' :
 	        	
 	            currentPos++;
-	            return new Token(Token.BinOp, "+", Parameters.ADD);
+	            return new Token(Token.BinOp, "+", BinOpExp.ADD);
 	
 	        case '-' :
 	            currentPos++;
-	            return new Token(Token.BinOp, "-", Parameters.SUB);
+	            return new Token(Token.BinOp, "-", BinOpExp.SUB);
 	
 	        case '*' :
 	            currentPos++;
-	            return new Token(Token.BinOp, "*", Parameters.MUL);
+	            return new Token(Token.BinOp, "*", BinOpExp.MUL);
 	
 	        case '/' :
 	            currentPos++;
-	            return new Token(Token.BinOp, "\\", Parameters.DIV);
+	            return new Token(Token.BinOp, "\\", BinOpExp.DIV);
 	            
             case '<' :
                 if (buffer[currentPos+1] == '=') {
                     currentPos += 2;
-                    return new Token(Token.BoolOp, "<=", Parameters.LE);
+                    return new Token(Token.BoolOp, "<=", IfCmd.LE);
                 }
                 currentPos++;
-                return new Token(Token.BoolOp, "<", Parameters.LT);
+                return new Token(Token.BoolOp, "<", IfCmd.LT);
 
             case '>' :
                 if (buffer[currentPos+1] == '=') {
                     currentPos += 2;
-                    return new Token(Token.BoolOp, ">=", Parameters.GE);
+                    return new Token(Token.BoolOp, ">=", IfCmd.GE);
                 } 
                 currentPos++;
-                return new Token(Token.BoolOp, ">", Parameters.GT);
+                return new Token(Token.BoolOp, ">", IfCmd.GT);
                 
             case ':' :
                 if (buffer[currentPos+1] == '=') {
@@ -90,30 +104,44 @@ public class Lexer {
                     return new Token(Token.Cmd, ":=", Cmd.ASSIGN_CMD);
                 } 
                 else
-                	return new Token(Token.Error);
+                	return new Token(Token.Symbol, buffer[currentPos++]);
             
             case 'i' :
-                if (currentPos+2 <= buffer.length && buffer[currentPos+1] == 'f' && buffer[currentPos+2] == '(' ) {
+                if (currentPos+1 <= buffer.length && buffer[currentPos+1] == 'f') {
                     currentPos += 2;
                     return new Token(Token.Cmd, "if", Cmd.IF_CMD);
                 }
                 
             case 'g' :
-                if (currentPos+4 <= buffer.length && buffer[currentPos+1] == 'o' && buffer[currentPos+2] == 't' && buffer[currentPos+3] == 'o' && buffer[currentPos+4] == ' ') {
+                if (currentPos+3 <= buffer.length && buffer[currentPos+1] == 'o' && buffer[currentPos+2] == 't' && buffer[currentPos+3] == 'o') {
                     currentPos += 4;
                     return new Token(Token.Cmd, "goto", Cmd.GOTO_CMD);
                 } 
                
             case 'p' :
-                if (currentPos+5 <= buffer.length && buffer[currentPos+1] == 'r' && buffer[currentPos+2] == 'i' && buffer[currentPos+3] == 'n' && buffer[currentPos+4] == 't' && buffer[currentPos+5] == '(') {
+                if (currentPos+4 <= buffer.length && buffer[currentPos+1] == 'r' && buffer[currentPos+2] == 'i' && buffer[currentPos+3] == 'n' && buffer[currentPos+4] == 't') {
                     currentPos += 5;
                     return new Token(Token.Cmd, "print", Cmd.PRINT_CMD);
                 } 
                 
             case '(' :					
             case ')' :
+                return new Token(Token.Symbol, buffer[currentPos++]);
+                
             case ';' :
-                return new Token(Token.Symbol);   
+                if (buffer[currentPos+1] == '\n') {
+                    try {
+						if(nextLine())
+							return new Token(Token.Eol);
+						else
+							return new Token(Token.Eof);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+                } 
+                else 
+                	return new Token(Token.Error);
                 
             case '0':
             case '1':
@@ -130,7 +158,7 @@ public class Lexer {
             	while ( currentPos+1 <= buffer.length && isDigit(buffer[currentPos]) ) 
             		num = (num*10) + (buffer[currentPos++] - '0');
             	
-            	return new Token(Token.Num,num,0);
+            	return new Token(Token.Num,num);
             
            default: break;
         }

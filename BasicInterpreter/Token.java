@@ -1,4 +1,3 @@
-package basicInterpreter;
 
 public class Token {
 	
@@ -8,20 +7,22 @@ public class Token {
     };
     
     /** The different types of token */
-	 final static int Cmd    = 0; // if, goto, print, := // TODO return string
-	 final static int Var    = 2; // [a-z] one letter //TODO return char
-	 final static int Num    = 3; // number no start with 0 //TODO return int
-	 final static int BoolOp = 4; // 
+	 final static int Cmd    = 0; 
+	 final static int Var    = 2;
+	 final static int Num    = 3; 
+	 final static int BoolOp = 4; 
 	 final static int BinOp  = 5;
 	 final static int Symbol = 6;
 	 final static int Error  = 7;
 	 final static int Eol    = 8;
+	 final static int Eof    = 9;
 	 
 	 
-	 protected int     type;     // token's type
+	 protected int     type;    
 	 protected int 	   parVal;
 	 protected String  strVal;
-	 protected double  numVal;     // numeric value
+	 protected char    chrVal;
+	 protected double  numVal; 
 	 
 	 int getType () {
 		 return type;
@@ -39,10 +40,13 @@ public class Token {
 	     type = this.type;
      }
 	 
-	 Token(int type, double numVal, int parVal) {
+	 Token(int type, double numVal) {
 	     type = this.type;
          numVal = this.numVal;
-         parVal = this.parVal;
+     }
+	 Token(int type, char chrVal) {
+	     type = this.type;
+	     chrVal = this.chrVal;
      }
 	 
 	 Token(int type, String strVal, int parVal) {
