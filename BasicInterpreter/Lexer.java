@@ -136,7 +136,7 @@ public class Lexer {
                 return new Token(Token.Symbol, buffer[currentPos++]);
                 
             case ';' :
-                if (buffer[currentPos+1] == '\n') {
+                if (currentPos+1 == buffer.length) {
 					
                 	if(nextLine())
 						return new Token(Token.Eol);
