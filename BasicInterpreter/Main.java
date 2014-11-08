@@ -25,7 +25,7 @@ public class Main {
 			br = new BufferedReader(new FileReader(filePath));
 			
 		} catch (FileNotFoundException e) {
-			//do nothing
+			e.printStackTrace();
 			return;
 		}
 		
@@ -34,15 +34,18 @@ public class Main {
 		Lexer lex = new Lexer(br);
 		
 		//checks, to be deleted
-		tokenizerCheker(lex);
+		//tokenizerCheker(lex);
 		
 		//parse program
 		Parser parser = new Parser(lex);
 		boolean isProgramParsed = parser.parseProgram();
+		
 		closeBr(br);
+		
 		if (isProgramParsed) {
 			//execute program
 			Processor processor = new Processor(linesByRealNumbering.size());
+			processor.process(1);
 		}
 	}
 	
@@ -53,7 +56,7 @@ public class Main {
 		System.out.println("The Tokens Are: ");
 		t = lex.nextToken();
 		while (t.getType()!=Token.Eof) {
-			System.out.println(t.typeString());
+			System.out.println(t.toString());
 			t = lex.nextToken();
 		}
 	}

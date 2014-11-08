@@ -60,6 +60,8 @@ public class Parser {
 			currentCmd = new AssignCmd(currentLineNum, lex, token.getchar());
 		}
 		
+		if (!Parser.checkSpace(currentLineNum, lex)) return;
+
 		token = lex.nextToken();
 		if (token.getType() != Token.Eol) {
 			Parser.setErrCode(currentLineNum, 1);

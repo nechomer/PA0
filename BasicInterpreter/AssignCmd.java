@@ -49,10 +49,6 @@ public class AssignCmd extends Cmd {
 			case Token.Var : assignCmd.setExp(new VarExp(assignCmd.getCurrentLineNumber(), lex));
 		}
 		
-		token = lex.nextToken();
-		if (token.getType() != Token.Eol) {
-			Parser.setErrCode(assignCmd.getCurrentLineNumber(), 1);
-		}
 	}
 
 }

@@ -1,7 +1,4 @@
 
-
-import java.util.HashMap;
-
 public class Processor {
 
 	private int LastLine;
@@ -11,7 +8,7 @@ public class Processor {
 		this.LastLine = LastLine;
 	}
 	
-	public void process(HashMap<Integer, Cmd> parsedProgram, HashMap<Character, Integer> variables, int startingAt) {
+	public void process(int startingAt) {
 		
 		Cmd currentCmd = null;
 		Integer expValue;
@@ -29,7 +26,7 @@ public class Processor {
 		while(currentLine <= LastLine) {
 			if (!isIfCmd)  {
 				//extract next line
-				currentCmd = parsedProgram.get(currentLine);
+				currentCmd = Main.linesByRealNumbering.get(currentLine);
 				isIfCmd = false;
 			}
 			
@@ -60,7 +57,7 @@ public class Processor {
 				if (null == expValue) {//runtime error
 					break;
 				}
-				variables.put(assignedVar, expValue);
+				Main.variables.put(assignedVar, expValue);
 				currentLine +=interval;
 				continue;
 			case Cmd.PRINT_CMD :

@@ -40,11 +40,11 @@ public class Token {
 	 
 	 Token(int type, int numVal) {
 	     this.type = type;
-	     this.numVal = numVal;
+         this.numVal = numVal;
      }
 	 Token(int type, char chrVal) {
-		 this.type = type;
-		 this.chrVal = chrVal;
+	     this.type = type;
+	     this.chrVal = chrVal;
      }
 	 
 	 String typeString() {
